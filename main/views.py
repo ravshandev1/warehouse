@@ -21,17 +21,17 @@ class WarehouseAPI(views.APIView):
             materials = list()
             for i in p.materials.all():
                 total = i.quantity * qty
-                for j in i.material.warehouse.filter(qty__gt=0).order_by('-qty'):
+                for j in i.material.warehouse.filter(qty__gt=0).order_by('-remainder'):
                     dt = WarehouseSerializer(j).data
-                    if j.qty >= total:
+                    if j.remainder >= total:
                         dt['qty'] = total
-                        j.qty -= total
+                        j.remainder -= total
                         j.save()
                         total = 0
                     else:
-                        dt['qty'] = j.qty
-                        total -= j.qty
-                        j.qty = 0
+                        dt['qty'] = j.remainder
+                        total -= j.remainder
+                        j.remainder = 0
                         j.save()
                     materials.append(dt)
                 if total > 0:

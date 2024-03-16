@@ -27,8 +27,8 @@ class ProductMaterial(models.Model):
 
 class Warehouse(models.Model):
     material = models.ForeignKey(Material, models.CASCADE, related_name='warehouse')
-    qty = models.IntegerField()
+    remainder = models.IntegerField()
     price = models.IntegerField()
 
     def __str__(self):
-        return self.material.name + " - " + str(self.qty) + " - " + str(self.price)
+        return self.material.name + " - " + str(self.remainder) + " - " + str(self.price)
